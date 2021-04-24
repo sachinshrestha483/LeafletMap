@@ -8,8 +8,12 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "leaflet": "^1.7.1",
+    "leaflet-geosearch": "^3.3.1",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
+    "vue-bootstrap-typeahead": "^0.2.6",
+    "vue-router": "^4.0.0-0",
+    "vue-typeahead-bootstrap": "^2.11.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
