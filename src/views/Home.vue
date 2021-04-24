@@ -1,7 +1,13 @@
 <template>
   <div class="d-flex flex-row bd-highlight mb-3">
     <div class="p-2 bd-highlight">
-      <SearchSection :addMarkerFun="addMarker" />
+      <SearchSection
+        :addMarkerFun="addMarker"
+        :initialPosition="initialPosition"
+        :finalPosition="finalPosition"
+        :setFinalPosMarker="setFinalPosMarker"
+        :setInitialPosMarker="setInitialPosMarker"
+      />
     </div>
     <div class="p-2 bd-highlight">
       <div id="mapid" ref="map"></div>
@@ -22,7 +28,6 @@
 <script>
 import { onMounted, ref } from "vue";
 // import 'node_modules/leaflet-geosearch/dist/geosearch.css';
-import { OpenStreetMapProvider } from "leaflet-geosearch";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 import SearchSection from "@/components/SearchSection";
 export default {
@@ -32,6 +37,11 @@ export default {
   },
   setup() {
     const map = ref(null);
+    const initialPosition = ref({ lat: "", lan: "" });
+    const finalPosition = ref({ lat: "", lan: "" });
+    var prevInitalPositionPointer = null;
+    var prevFinalPositionPointer = null;
+
     var mymap;
     onMounted(() => {
       console.log(map);
@@ -45,8 +55,6 @@ export default {
       const tileLayer = L.tileLayer(tileUrl, { attribution });
       tileLayer.addTo(mymap);
 
-      const Clayer = L.circle([19.076, 72.8777], { radius: 2500 });
-      Clayer.addTo(mymap);
       var latLangs = [
         [75.036696, 23.331498],
         [75.036699, 23.331494],
@@ -1065,12 +1073,20 @@ export default {
         [75.857706, 22.719578],
         [75.857699, 22.7196],
       ];
+
       const arr = latLangs.map((x) => x.reverse());
       var polyline = L.polyline(latLangs, { color: "red" }).addTo(mymap);
       mymap.fitBounds(polyline.getBounds());
     });
 
-    const query = ref("");
+    const setInitialPosMarker = (lat, lon) => {
+      prevInitalPositionPointer;
+
+      
+    };
+    const setFinalPosMarker = (lat, lon) => {
+      prevFinalPositionPointer;
+    };
 
     const addMarker = (lat, lon) => {
       console.log(lat);
@@ -1091,7 +1107,15 @@ export default {
       marker.addTo(mymap);
     };
 
-    return { map, query, addMarker };
+    return {
+      map,
+      addMarker,
+      initialPosition,
+      finalPosition,
+      setInitialPosMarker,
+      setFinalPosMarker,
+
+    };
   },
 };
 </script>
