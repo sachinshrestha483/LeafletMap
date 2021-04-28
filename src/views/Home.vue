@@ -10,6 +10,7 @@
         :createRoute="CreateRoute"
         :intermediatePoints="intermediatePoints"
         :SetIntermediatePosMarker="SetIntermediatePosMarker"
+        :getRouteFun="getRouteFun"
       />
     </div>
     <div class="p-2 bd-highlight">
@@ -45,9 +46,16 @@ export default {
     var prevInitalPositionPointer = null;
     var prevFinalPositionPointer = null;
     var previousRoute = null;
+    var selectedGeojson = [];
     const intermediatePoints = ref([]);
     var previousIntermediatePointer = [];
-
+    const routeFun = ref(null);
+    const getRouteFun = ref((fun) => {
+      routeFun.value = fun;
+      console.log("Route fun Here ");
+      console.log(routeFun);
+      console.log("Route fun Here ");
+    });
     var mymap;
     onMounted(() => {
       console.log(map);
@@ -90,7 +98,10 @@ export default {
 
           intermediatePoints.value[index].lat = obj.lat;
           intermediatePoints.value[index].lon = obj.lng;
-        
+
+          if (routeFun.value != null) {
+            routeFun.value();
+          }
         });
 
         marker.addTo(mymap);
@@ -119,7 +130,9 @@ export default {
 
         initialPosition.value.lat = obj.lat;
         initialPosition.value.lon = obj.lng;
-   
+        if (routeFun.value != null) {
+          routeFun.value();
+        }
       });
 
       marker.addTo(mymap);
@@ -146,7 +159,9 @@ export default {
 
         finalPosition.value.lat = obj.lat;
         finalPosition.value.lon = obj.lng;
-      
+        if (routeFun.value != null) {
+          routeFun.value();
+        }
         // console.log("new Lat lng:"+e.latlng)
       });
 
@@ -188,7 +203,9 @@ export default {
       //  var p =paths.value[0].latLongArr;
       //  let r = possiblePaths[pathNum].geoJson.map((e) => e.reverse());
       let r = possiblePaths[pathNum].geoJson;
-
+      selectedGeojson = possiblePaths[pathNum].geoJson;
+      console.log("SelectedGeoJson");
+      console.log(selectedGeojson);
       //      var latlngs = [...possiblePaths];
 
       var polyline = L.polyline(r, { color: "red" }).addTo(mymap);
@@ -209,6 +226,7 @@ export default {
       CreateRoute,
       intermediatePoints,
       SetIntermediatePosMarker,
+      getRouteFun,
     };
   },
 };

@@ -103,6 +103,7 @@ export default {
     "intermediatePoints",
     "SetIntermediatePosMarker",
     "calculateRoute",
+    "getRouteFun"
   ],
 
   setup(props) {
@@ -299,6 +300,14 @@ export default {
 
       props.createRoute(paths);
     };
+console.log("------Function Required-----")
+console.log("------Function Required-----")
+console.log(props.getRouteFun);
+props.getRouteFun="dsdsd";
+console.log(props.getRouteFun);
+props.getRouteFun(calcuteRoute);
+console.log("------Function Required-----")
+console.log("------Function Required-----")
 
 
    
